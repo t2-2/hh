@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>איסוף כספים כיתה ט2</title>
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  direction: rtl;
+}
+
+body {
+  background-image: url('https://i.postimg.cc/4NzTkQC8/IMG-3830.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 60px;
+}
+
+h1 {
+  font-family: 'Karantina', cursive;
+  font-size: 48px;
+  color: black;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  color: black;
+  max-width: 350px;
+  width: 90%;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  margin-bottom: 20px;
+  text-decoration: none;
+  display: block;
+}
+
+.card h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+}
+
+.card p {
+  font-size: 18px;
+  margin: 6px 0;
+}
+
+#completed-section {
+  width: 100%;
+  max-width: 400px;
+  margin-top: 40px;
+}
+
+.accordion-header {
+  background: #eee;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 16px;
+  margin-bottom: 5px;
+}
+
+.accordion-header span.arrow {
+  transition: transform 0.3s ease;
+}
+
+.accordion-header span.arrow.down {
+  transform: rotate(90deg);
+}
+
+.accordion-content {
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<h1>שלום אדריאנה</h1>
+
+<div id="active-cards"></div>
+<div id="completed-section"></div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBgZaA7DALTfU7U3LLBGviFDhlaAXucN84",
+  authDomain: "class-e98e2.firebaseapp.com",
+  databaseURL: "https://class-e98e2-default-rtdb.firebaseio.com",
+  projectId: "class-e98e2",
+  storageBucket: "class-e98e2.appspot.com",
+  messagingSenderId: "1089133306733",
+  appId: "1:1089133306733:web:92689e0bb03fd46e92f064"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const path = 'collections/gibush';
+
+// רשימת כרטיסים - לדוגמה יש רק אחד
+const cardsData = [
+  {
+    title: 'פעילות גיבוש כיתתית',
+    price: '15₪',
+    date: '5/11 יום רביעי',
+    id: 'gibush',
+    href: 'https://yyyyyjkfgvlhg.w3spaces.com/Ab.html'
+  }
+];
+
+const activeCardsDiv = document.getElementById('active-cards');
+
+// יצירת כרטיסים פעילים
+cardsData.forEach(cardInfo => {
+  const card = document.createElement('a');
+  card.className = 'card';
+  card.dataset.id = cardInfo.id;
+  card.href = cardInfo.href;
+  card.target = "_blank"; // אופציונלי לפתיחה בכרטיס חדש
+  card.innerHTML = `<h2>${cardInfo.title}</h2><p>מחיר: ${cardInfo.price}</p><p>תאריך יעד: ${cardInfo.date}</p>`;
+  activeCardsDiv.appendChild(card);
+});
+
+// פונקציה ליצירת accordion בכרטיס מושלם
+function moveToCompleted(card) {
+  const completedSection = document.getElementById('completed-section');
+
+  const header = document.createElement('div');
+  header.className = 'accordion-header';
+  header.innerHTML = '<span>הושלם</span><span class="arrow">→</span>';
+
+  const content = document.createElement('div');
+  content.className = 'accordion-content';
+  content.appendChild(card); // הכרטיס נשאר <a> עם href
+
+  header.addEventListener('click', () => {
+    if(content.style.display === 'block') {
+      content.style.display = 'none';
+      header.querySelector('.arrow').classList.remove('down');
+    } else {
+      content.style.display = 'block';
+      header.querySelector('.arrow').classList.add('down');
+    }
+  });
+
+  completedSection.appendChild(header);
+  completedSection.appendChild(content);
+}
+
+// פונקציה לבדוק סטטוס ולסדר כרטיסים
+function checkStatus() {
+  db.ref(path).once('value').then(snapshot => {
+    const data = snapshot.val();
+    if (!data) return;
+
+    cardsData.forEach(cardInfo => {
+      const card = document.querySelector(`.card[data-id="${cardInfo.id}"]`);
+      const students = data.students || [];
+      const paidList = data.paidList || [];
+      const percent = (paidList.length / students.length) * 100;
+
+      if(percent === 100 && card.parentElement === activeCardsDiv) {
+        moveToCompleted(card);
+      }
+    });
+  });
+}
+
+// מאזין בזמן אמת
+db.ref(path).on('value', snapshot => {
+  checkStatus();
+});
+</script>
+
+</body>
+</html>
