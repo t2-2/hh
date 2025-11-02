@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רשימת תלמידים - ט׳2</title>
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  direction: rtl;
+  background: #111; /* שחור למטה */
+  color: black;
+}
+
+/* תמונה למעלה */
+.header-bg {
+  width: 100%;
+  height: 300px;
+  background: url('https://i.postimg.cc/4NzTkQC8/IMG-3830.jpg') no-repeat center top;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 50px; /* מספיק מקום לכותרת והכרטיס למטה */
+}
+
+h1 {
+  font-family: 'Karantina', cursive;
+  font-size: 40px;
+  color: black;
+  margin: 0;
+}
+
+/* כרטיס לבן במרכז */
+.card {
+  background-color: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  margin: -20px auto 20px auto; /* מעט למטה מבלי לעבור על הכותרת */
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.activity-details {
+  font-size: 20px;
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #6aa84f;
+  width: 0%;
+  text-align: center;
+  color: white;
+  line-height: 20px;
+  font-size: 14px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+  font-size: 18px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: black;
+}
+</style>
+</head>
+<body>
+
+<div class="header-bg">
+  <h1>שלום אדריאנה</h1>
+</div>
+
+<div class="card">
+  <div class="activity-details">
+    <div>פעילות גיבוש כיתתית</div>
+    <div>מחיר: 15₪</div>
+    <div>תאריך: 5/11 יום רביעי</div>
+  </div>
+
+  <div class="progress-bar">
+    <div class="progress-fill" id="progress">0%</div>
+  </div>
+
+  <ul id="students-list"></ul>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBgZaA7DALTfU7U3LLBGviFDhlaAXucN84",
+  authDomain: "class-e98e2.firebaseapp.com",
+  databaseURL: "https://class-e98e2-default-rtdb.firebaseio.com",
+  projectId: "class-e98e2",
+  storageBucket: "class-e98e2.appspot.com",
+  messagingSenderId: "1089133306733",
+  appId: "1:1089133306733:web:92689e0bb03fd46e92f064"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const collectionPath = 'collections/gibush';
+
+function listenAndRender() {
+  db.ref(collectionPath).on('value', snapshot => {
+    const data = snapshot.val();
+    if (!data || !data.students) return;
+
+    if (!data.paidList) {
+      db.ref(collectionPath + '/paidList').set([]);
+      data.paidList = [];
+    }
+
+    renderList(data);
+  });
+}
+
+function renderList(data) {
+  const ul = document.getElementById('students-list');
+  ul.innerHTML = '';
+
+  data.students.forEach(student => {
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+    span.textContent = student;
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = data.paidList.includes(student);
+    checkbox.onchange = () => markStudent(student, checkbox.checked);
+
+    li.appendChild(span);
+    li.appendChild(checkbox);
+    ul.appendChild(li);
+  });
+
+  const progressEl = document.getElementById('progress');
+  const percent = Math.round((data.paidList.length / data.students.length) * 100);
+  progressEl.style.width = percent + '%';
+  progressEl.textContent = percent + '%';
+}
+
+function markStudent(student, isPaid) {
+  db.ref(collectionPath + '/paidList').once('value').then(snapshot => {
+    let list = snapshot.val() || [];
+    if (isPaid) {
+      if (!list.includes(student)) list.push(student);
+    } else {
+      list = list.filter(s => s !== student);
+    }
+    db.ref(collectionPath + '/paidList').set(list);
+  });
+}
+
+listenAndRender();
+</script>
+
+</body>
+</html>
