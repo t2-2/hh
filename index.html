@@ -117,7 +117,7 @@ const cardsData = [
   {
     title: 'פעילות גיבוש כיתתית',
     price: '15₪',
-    date: '5/11 יום רביעי',
+    date: '6/11 יום חמישי',
     id: 'gibush',
     href: 'https://t2-2.github.io/hh/Ab'
   }
@@ -132,7 +132,7 @@ cardsData.forEach(cardInfo => {
   card.dataset.id = cardInfo.id;
   card.href = cardInfo.href;
   card.target = "_blank"; // אופציונלי לפתיחה בכרטיס חדש
-  card.innerHTML = `<h2>${cardInfo.title}</h2><p>מחיר: ${cardInfo.price}</p><p>תאריך יעד: ${cardInfo.date}</p>`;
+  card.innerHTML = `<h2>${cardInfo.title}</h2><p>כמות כסף: ${cardInfo.price}</p><p>תאריך יעד: ${cardInfo.date}</p>`;
   activeCardsDiv.appendChild(card);
 });
 
