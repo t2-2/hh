@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>רשימת נוכחות - ט׳2</title>
+<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  direction: rtl;
+  background: #111;
+  color: black;
+}
+
+.header-bg {
+  width: 100%;
+  height: 300px;
+  background: url('https://i.postimg.cc/4NzTkQC8/IMG-3830.jpg') no-repeat center top;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding-bottom: 50px;
+}
+
+h1 {
+  font-family: 'Karantina', cursive;
+  font-size: 40px;
+  color: black;
+  margin: 0;
+}
+
+.card {
+  background-color: white;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 500px;
+  margin: -20px auto 20px auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #ccc;
+  font-size: 18px;
+}
+
+input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: black;
+}
+</style>
+</head>
+<body>
+
+<div class="header-bg">
+  <h1>רשימת נוכחות ט2</h1>
+</div>
+
+<div class="card">
+  <ul id="students-list"></ul>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
+<script>
+// Firebase config
+const firebaseConfig = {
+  apiKey: "AIzaSyBgZaA7DALTfU7U3LLBGviFDhlaAXucN84",
+  authDomain: "class-e98e2.firebaseapp.com",
+  databaseURL: "https://class-e98e2-default-rtdb.firebaseio.com",
+  projectId: "class-e98e2",
+  storageBucket: "class-e98e2.appspot.com",
+  messagingSenderId: "1089133306733",
+  appId: "1:1089133306733:web:92689e0bb03fd46e92f064"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const collectionPath = 'collections/gibush';
+
+// טוען
+function listenAndRender() {
+  db.ref(collectionPath).on('value', snapshot => {
+    const data = snapshot.val();
+    if (!data || !data.students) return;
+
+    if (!data.paidList2) {
+      db.ref(collectionPath + '/paidList2').set([]);
+    }
+
+    renderList(data.students, data.paidList2 || []);
+  });
+}
+
+// מציג וממיין – מסומנים למעלה
+function renderList(students, paidList) {
+  const ul = document.getElementById('students-list');
+  ul.innerHTML = '';
+
+  const sorted = [...students].sort((a, b) => {
+    const aPaid = paidList.includes(a);
+    const bPaid = paidList.includes(b);
+    return aPaid === bPaid ? 0 : aPaid ? -1 : 1;
+  });
+
+  sorted.forEach(student => {
+    const li = document.createElement('li');
+    const span = document.createElement('span');
+    span.textContent = student;
+
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
+    checkbox.checked = paidList.includes(student);
+    checkbox.onchange = () => updatePaid(student, checkbox.checked);
+
+    li.appendChild(span);
+    li.appendChild(checkbox);
+    ul.appendChild(li);
+  });
+}
+
+// מסמן / מוריד מהרשימה
+function updatePaid(student, checked) {
+  db.ref(collectionPath + '/paidList2').once('value').then(snapshot => {
+    let list = snapshot.val() || [];
+
+    if (checked) {
+      if (!list.includes(student)) list.push(student);
+    } else {
+      list = list.filter(s => s !== student);
+    }
+
+    db.ref(collectionPath + '/paidList2').set(list);
+  });
+}
+
+// מאפס כל יום ב־20:00
+function scheduleDailyReset() {
+  const now = new Date();
+  const target = new Date();
+  target.setHours(20, 0, 0, 0);
+
+  if (now > target) {
+    target.setDate(target.getDate() + 1);
+  }
+
+  const ms = target - now;
+
+  setTimeout(() => {
+    db.ref(collectionPath + '/paidList2').set([]);
+    scheduleDailyReset();
+  }, ms);
+}
+
+scheduleDailyReset();
+listenAndRender();
+</script>
+
+</body>
+</html>
