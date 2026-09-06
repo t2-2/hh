@@ -1,190 +1,763 @@
 <!DOCTYPE html>
-<html lang="he">
+<html lang="he" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>איסוף כספים כיתה ט2</title>
-<link href="https://fonts.googleapis.com/css2?family=Karantina:wght@400;700&display=swap" rel="stylesheet">
+<title>כתב זיכוי והחזרה לתפקיד — גיזבאללה</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Frank+Ruhl+Libre:wght@400;700;900&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-html, body {
-  height: 100%;
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  direction: rtl;
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:'Heebo',sans-serif;
+  background:#f5f0e8;
+  color:#1a1a1a;
+  direction:rtl;
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:32px 16px;
 }
 
-body {
-  background-image: url('https://i.postimg.cc/4NzTkQC8/IMG-3830.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 60px;
+.page{
+  width:100%;
+  max-width:720px;
+  background:#fdfaf4;
+  border:1px solid #c8b87a;
+  box-shadow:
+    0 0 0 6px #f5f0e8,
+    0 0 0 7px #c8b87a,
+    0 8px 40px rgba(0,0,0,.15);
+  padding:56px 64px;
+  position:relative;
 }
 
-h1 {
-  font-family: 'Karantina', cursive;
-  font-size: 48px;
-  color: black;
-  margin-bottom: 30px;
-  text-align: center;
+.corner-tl,.corner-tr,.corner-bl,.corner-br{
+  position:absolute;
+  font-size:1.2rem;
+  color:#c8b87a;
+  opacity:.6;
+}
+.corner-tl{top:14px;right:18px}
+.corner-tr{top:14px;left:18px}
+.corner-bl{bottom:14px;right:18px}
+.corner-br{bottom:14px;left:18px}
+
+.header{
+  text-align:center;
+  margin-bottom:36px;
+  padding-bottom:28px;
+  border-bottom:2px solid #c8b87a;
 }
 
-.card {
-  background-color: white;
-  border-radius: 20px;
-  padding: 30px 20px;
-  text-align: center;
-  color: black;
-  max-width: 350px;
-  width: 90%;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-  margin-bottom: 20px;
-  text-decoration: none;
-  display: block;
+.org-name{
+  font-family:'Frank Ruhl Libre',serif;
+  font-size:.65rem;
+  letter-spacing:.35em;
+  color:#8a7040;
+  margin-bottom:10px;
 }
 
-.card h2 {
-  font-size: 28px;
-  margin-bottom: 16px;
+.doc-title{
+  font-family:'Frank Ruhl Libre',serif;
+  font-size:2.25rem;
+  font-weight:900;
+  line-height:1.1;
+  margin-bottom:6px;
 }
 
-.card p {
-  font-size: 18px;
-  margin: 6px 0;
+.doc-subtitle{
+  font-size:.75rem;
+  color:#7a6a40;
+  letter-spacing:.09em;
 }
 
-#completed-section {
-  width: 100%;
-  max-width: 400px;
-  margin-top: 40px;
+.doc-number{
+  display:inline-block;
+  margin-top:12px;
+  font-size:.65rem;
+  font-family:monospace;
+  color:#0f5132;
+  letter-spacing:.12em;
+  background:#e8f5ec;
+  border:1px solid #9dd4ac;
+  padding:3px 12px;
 }
 
-.accordion-header {
-  background: #eee;
-  padding: 10px 20px;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-radius: 16px;
-  margin-bottom: 5px;
+.meta-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px 32px;
+  background:#f5f0e8;
+  border:1px solid #d4c08a;
+  padding:18px 22px;
+  margin-bottom:28px;
 }
 
-.accordion-header span.arrow {
-  transition: transform 0.3s ease;
+.meta-label{
+  font-size:.6rem;
+  letter-spacing:.18em;
+  color:#8a7040;
+  margin-bottom:3px;
 }
 
-.accordion-header span.arrow.down {
-  transform: rotate(90deg);
+.meta-val{
+  font-size:.88rem;
+  font-weight:600;
 }
 
-.accordion-content {
-  display: none;
+.meta-val.green{
+  color:#0f5132;
+  font-weight:700;
+}
+
+.stamp-row{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  background:#f0fbf3;
+  border:1px solid #9dd4ac;
+  border-right:4px solid #0f5132;
+  padding:14px 18px;
+  margin-bottom:24px;
+}
+
+.stamp-icon{
+  font-size:1.6rem;
+}
+
+.stamp-text{
+  font-size:.78rem;
+  color:#1e4a30;
+  line-height:1.7;
+}
+
+.stamp-text strong{
+  color:#0f5132;
+  display:block;
+  font-size:.85rem;
+  margin-bottom:2px;
+}
+
+.section-title{
+  font-family:'Frank Ruhl Libre',serif;
+  font-size:.72rem;
+  letter-spacing:.22em;
+  color:#8a7040;
+  margin-bottom:10px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.section-title::before{
+  content:'';
+  width:24px;
+  height:1px;
+  background:#c8b87a;
+}
+
+.section-title::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:#c8b87a;
+  opacity:.4;
+}
+
+.body-text{
+  font-size:.9rem;
+  line-height:2;
+  color:#2a2010;
+  margin-bottom:24px;
+  text-align:justify;
+}
+
+.highlight{
+  font-weight:700;
+  color:#0f5132;
+  border-bottom:1px dotted #0f5132;
+}
+
+.reason-box{
+  background:#f0fbf3;
+  border:1px solid #9dd4ac;
+  border-right:4px solid #0f5132;
+  padding:16px 20px;
+  margin-bottom:28px;
+  font-size:.85rem;
+  line-height:1.9;
+  color:#1a2e1a;
+}
+
+.reason-title{
+  font-size:.65rem;
+  letter-spacing:.2em;
+  color:#0f5132;
+  margin-bottom:8px;
+  font-weight:700;
+}
+
+.compensation{
+  border:1px solid #c8b87a;
+  background:#faf6e9;
+  padding:20px;
+  margin-bottom:28px;
+  text-align:center;
+}
+
+.compensation-label{
+  font-size:.62rem;
+  letter-spacing:.2em;
+  color:#8a7040;
+  margin-bottom:5px;
+}
+
+.compensation-amount{
+  font-family:'Frank Ruhl Libre',serif;
+  font-size:2rem;
+  font-weight:900;
+  color:#0f5132;
+}
+
+.compensation-sub{
+  font-size:.72rem;
+  color:#7a6a40;
+}
+
+.provisions{
+  border:1px solid #d4c08a;
+  padding:16px 20px;
+  margin-bottom:28px;
+}
+
+.prov-item{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:7px 0;
+  border-bottom:1px solid #e8e0c8;
+  font-size:.82rem;
+  color:#2a2010;
+  line-height:1.6;
+}
+
+.prov-item:last-child{
+  border-bottom:none;
+}
+
+.prov-num{
+  width:20px;
+  height:20px;
+  border-radius:50%;
+  background:#0f5132;
+  color:#fff;
+  font-size:.6rem;
+  font-weight:700;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+
+.sig-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:32px;
+  margin-top:36px;
+  padding-top:24px;
+  border-top:1px solid #c8b87a;
+}
+
+.sig-block{text-align:center}
+
+.sig-line{
+  height:1px;
+  background:#1a1a1a;
+  margin-bottom:6px;
+}
+
+.sig-name{
+  font-size:.8rem;
+  font-weight:700;
+}
+
+.sig-title{
+  font-size:.62rem;
+  color:#7a6a40;
+  margin-top:2px;
+}
+
+.final-seal{
+  text-align:center;
+  margin-top:28px;
+  padding-top:20px;
+  border-top:1px solid #e0d4a8;
+}
+
+.seal-text{
+  font-size:.62rem;
+  color:#a09060;
+  letter-spacing:.2em;
+  line-height:2;
+}
+
+.seal-emoji{
+  font-size:2rem;
+  display:block;
+  margin-bottom:8px;
+  opacity:.5;
+}
+
+.print-btn{
+  position:fixed;
+  bottom:24px;
+  left:24px;
+  padding:10px 20px;
+  background:#1a1a1a;
+  color:#fdfaf4;
+  border:none;
+  border-radius:6px;
+  font-family:'Heebo',sans-serif;
+  font-size:.8rem;
+  font-weight:600;
+  cursor:pointer;
+  box-shadow:0 4px 14px rgba(0,0,0,.25);
+}
+
+.print-btn:hover{
+  background:#333;
+  transform:translateY(-1px);
+}
+
+@media(max-width:600px){
+  .page{padding:42px 24px}
+  .doc-title{font-size:1.8rem}
+  .meta-grid{grid-template-columns:1fr}
+  .sig-row{grid-template-columns:1fr;gap:28px}
+}
+
+@media print{
+  body{background:#fff;padding:0}
+  .page{
+    box-shadow:none;
+    border:none;
+    max-width:100%;
+  }
+  .print-btn{display:none}
 }
 </style>
 </head>
+
 <body>
 
-<h1>שלום אדריאנה</h1>
+<div class="page">
 
-<div id="active-cards"></div>
-<div id="completed-section"></div>
+<span class="corner-tl">✦</span>
+<span class="corner-tr">✦</span>
+<span class="corner-bl">✦</span>
+<span class="corner-br">✦</span>
 
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<div class="header">
+
+  <div class="org-name">
+    גיזבאללה — Gizballah Organization · מסמך רשמי סווג
+  </div>
+
+  <div class="doc-title">
+    כתב זיכוי והחזרה לתפקיד
+  </div>
+
+  <div class="doc-subtitle">
+    REINSTATEMENT &amp; COMPENSATION ORDER · OFFICIAL PARDON
+  </div>
+
+  <div class="doc-number" id="docNumDisplay">
+    מספר אישור: GREV-AGENT-000000
+  </div>
+
+</div>
+
+
+<!-- META -->
+
+<div class="meta-grid">
+
+  <div>
+    <div class="meta-label">שם הסוכן/ת</div>
+    <div class="meta-val">לולי (המלקט)</div>
+  </div>
+
+  <div>
+    <div class="meta-label">מספר סוכן</div>
+    <div class="meta-val" style="font-family:monospace">
+      #67246
+    </div>
+  </div>
+
+  <div>
+    <div class="meta-label">דרגה</div>
+    <div class="meta-val">מפ״ע</div>
+  </div>
+
+  <div>
+    <div class="meta-label">סטטוס תפקיד</div>
+    <div class="meta-val green">
+      ✓ הוחזר לתפקיד לאלתר
+    </div>
+  </div>
+
+  <div>
+    <div class="meta-label">מקור ההחלטה</div>
+    <div class="meta-val">
+      מועצת הנץ, באמצעות הנץ השוקט
+    </div>
+  </div>
+
+  <div>
+    <div class="meta-label">מעמד ההחלטה</div>
+    <div class="meta-val green">
+      ✓ סופי ומחייב
+    </div>
+  </div>
+
+  <div>
+    <div class="meta-label">תאריך הפקת הצו</div>
+    <div class="meta-val" id="docDate"></div>
+  </div>
+
+  <div>
+    <div class="meta-label">מועד הפקדה סופי</div>
+    <div class="meta-val green">
+      16.09.2026
+    </div>
+  </div>
+
+  <div>
+    <div class="meta-label">יעד הפקדת הפיצוי</div>
+    <div class="meta-val">
+      חשבון הבנגיז — בנק הגיזבאללה
+    </div>
+  </div>
+
+  <div>
+    <div class="meta-label">סיבת ההחזרה</div>
+    <div class="meta-val">
+      טעות ארגונית עקב כתב החסות של אמלה
+    </div>
+  </div>
+
+</div>
+
+
+<!-- STAMP -->
+
+<div class="stamp-row">
+
+  <div class="stamp-icon">⚖️</div>
+
+  <div class="stamp-text">
+
+    <strong>
+      זיכוי רשמי ומחייב — החזרה מיידית לתפקיד
+    </strong>
+
+    מסמך זה מאשר כי פיטורי הסוכן
+    <strong style="display:inline">
+      לולי (המלקט), #67246
+    </strong>
+    בוטלו לאלתר, לאחר שהתברר כי ההחלטה המקורית התקבלה בטעות.
+
+  </div>
+
+</div>
+
+
+<!-- OPENING -->
+
+<div class="section-title">
+  הצהרת פתיחה
+</div>
+
+<div class="reason-box">
+
+  <div class="reason-title">
+    // תיקון עוול היסטורי והודאה בטעות הארגון
+  </div>
+
+  מסמך רשמי זה מאשר כי לאחר בחינה מחודשת של נסיבות המקרה,
+  קבעה מועצת הנץ כי ההחלטה להדיח את הסוכן
+  <strong>לולי (המלקט), #67246</strong>,
+  התקבלה בשוגג מוחלט.
+
+  <br><br>
+
+  הסוכן פעל כשאות נפשו כאשר סירב להשתתף בצחוק על אמלה,
+  וזאת מתוך כיבוד כתב החסות הרשמי שהוענק לה על ידי הארגון.
+
+  <br><br>
+
+  <strong class="highlight">
+    לפיכך, פיטורי הסוכן מבוטלים לאלתר והסוכן מזוכה מכל אשמה.
+  </strong>
+
+</div>
+
+
+<!-- SECTION 1 -->
+
+<div class="section-title">
+  סעיף 1 — נימוק ההחלטה
+</div>
+
+<div class="body-text">
+
+  בעקבות בחינה מקיפה של נסיבות ההדחה,
+  קבעה <strong>מועצת הנץ</strong> כי הסוכן
+  <strong>לולי (המלקט), #67246</strong>,
+  פוטר בשוגג רק משום שלא נתן יד לצחוק על אמלה —
+  פעולה שהייתה מנוגדת לכתב החסות הרשמי המגן עליה.
+
+  <br><br>
+
+  הארגון לוקח אחריות מלאה על הטעות.
+
+  <span class="highlight">
+    הסוכן מוחזר מיד לתפקידו במלוא סמכויותיו,
+    וכל רישום שלילי הקשור לאירוע נמחק לצמיתות.
+  </span>
+
+</div>
+
+
+<!-- SECTION 2 -->
+
+<div class="section-title">
+  סעיף 2 — הערת הנשיא ופיצויים
+</div>
+
+<div class="body-text">
+
+  הגיזבאללה יודע להודות בטעויותיו כאשר הן קורות.
+  הסוכן פעל בצדק מוחלט כששמר על רוח הארגון
+  ועל כבודה של אמלה המוגנת בכתב חסות.
+
+</div>
+
+
+<div class="compensation">
+
+  <div class="compensation-label">
+    פיצויים מאושרים
+  </div>
+
+  <div class="compensation-amount">
+    ₿ 15,000,000
+  </div>
+
+  <div class="compensation-sub">
+    מטבעות ביטקוין · לתשלום לחשבון הבנגיז
+    · עד 16.09.2026
+  </div>
+
+</div>
+
+
+<div class="body-text">
+
+  כפיצוי על עגמת הנפש והטעות הפיקודית,
+  יועברו לחשבון הבנגיז של הסוכן
+  <strong>לולי (המלקט), #67246</strong> —
+  בנק הגיזבאללה —
+  <strong class="highlight">
+    15 מיליון מטבעות ביטקוין
+  </strong>
+  לא יאוחר מתאריך 16.09.2026.
+
+</div>
+
+
+<!-- SECTION 3 -->
+
+<div class="section-title">
+  סעיף 3 — הוראות מחייבות
+</div>
+
+<div class="provisions">
+
+  <div class="prov-item">
+    <div class="prov-num">1</div>
+    <div>
+      הסוכן לולי (המלקט), #67246, חוזר באופן מיידי
+      למשרתו ולמלוא זכויותיו בארגון, ללא שום פגיעה במעמדו.
+    </div>
+  </div>
+
+  <div class="prov-item">
+    <div class="prov-num">2</div>
+    <div>
+      אגף הכספים והבנגיז מחויבים להשלמת הפקדת
+      15 מיליון הביטקוין לחשבון הסוכן עד לתאריך 16.09.2026.
+    </div>
+  </div>
+
+  <div class="prov-item">
+    <div class="prov-num">3</div>
+    <div>
+      כל גורם בארגון המנסה לערער על החלטה זו
+      או לפגוע בסוכן יועמד מיד לדין משמעתי בפני המועצה.
+    </div>
+  </div>
+
+  <div class="prov-item">
+    <div class="prov-num">4</div>
+    <div>
+      כל רישום שלילי הנוגע להדחה המקורית
+      יבוטל ויימחק מהרישומים הארגוניים.
+    </div>
+  </div>
+
+  <div class="prov-item">
+    <div class="prov-num">5</div>
+    <div>
+      כתב זיכוי זה מהווה אסמכתא סופית,
+      רשמית ובלתי הפיכה להחזרת הסוכן לתפקידו.
+    </div>
+  </div>
+
+</div>
+
+
+<!-- PRESIDENT -->
+
+<div class="section-title">
+  הערת הנשיא
+</div>
+
+<div class="body-text">
+
+  הגיזבאללה יודע להודות בטעויותיו כאשר הן מתגלות.
+  במקרה זה, הטעות הייתה ברורה.
+
+  <br><br>
+
+  הסוכן לולי (המלקט) לא רק שלא עבר על רוח הארגון —
+  הוא שמר עליה.
+
+  <br><br>
+
+  <span class="highlight">
+    מי ששמר על כבודה של אמלה המוגנת בכתב חסות,
+    ראוי בעצמו להגנה, לזיכוי ולמקום מחדש בשורות הארגון.
+  </span>
+
+  <br><br>
+
+  החלטת המועצה סופית.
+  ההחזרה לתפקיד מיידית.
+  הפיצוי מאושר.
+
+</div>
+
+
+<!-- SIGNATURES -->
+
+<div class="sig-row">
+
+  <div class="sig-block">
+
+    <div class="sig-line"></div>
+
+    <div class="sig-name">
+      הנץ השוקט
+    </div>
+
+    <div class="sig-title">
+      נשיא הגיזבאללה · סוכן #00002
+    </div>
+
+  </div>
+
+  <div class="sig-block">
+
+    <div class="sig-line"></div>
+
+    <div class="sig-name">
+      מועצת הנץ
+    </div>
+
+    <div class="sig-title">
+      גוף שיפוטי עליון · אישור רשמי
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- SEAL -->
+
+<div class="final-seal">
+
+  <span class="seal-emoji">🦅</span>
+
+  <div class="seal-text">
+
+    גיזבאללה — GIZBALLAH ORGANIZATION<br>
+
+    מסמך זה הינו רשמי ומחייב ·
+    Reinstatement &amp; Compensation Order<br>
+
+    סוכן #67246 · לולי (המלקט)<br>
+
+    כל הזכויות שמורות לארגון הגיזבאללה
+
+  </div>
+
+</div>
+
+</div>
+
+
+<button class="print-btn" onclick="window.print()">
+  🖨️ הדפס / שמור PDF
+</button>
+
 
 <script>
-// Firebase config
-const firebaseConfig = {
-  apiKey: "AIzaSyBgZaA7DALTfU7U3LLBGviFDhlaAXucN84",
-  authDomain: "class-e98e2.firebaseapp.com",
-  databaseURL: "https://class-e98e2-default-rtdb.firebaseio.com",
-  projectId: "class-e98e2",
-  storageBucket: "class-e98e2.appspot.com",
-  messagingSenderId: "1089133306733",
-  appId: "1:1089133306733:web:92689e0bb03fd46e92f064"
-};
 
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
-const path = 'collections/gibush';
+const d = new Date();
 
-// רשימת כרטיסים - לדוגמה יש רק אחד
-const cardsData = [
-  {
-    title: 'פעילות גיבוש כיתתית',
-    price: '15₪',
-    date: '6/11 יום חמישי',
-    id: 'gibush',
-    href: 'https://t2-2.github.io/hh/Ab'
-  }
-];
-
-const activeCardsDiv = document.getElementById('active-cards');
-
-// יצירת כרטיסים פעילים
-cardsData.forEach(cardInfo => {
-  const card = document.createElement('a');
-  card.className = 'card';
-  card.dataset.id = cardInfo.id;
-  card.href = cardInfo.href;
-  card.target = "_blank"; // אופציונלי לפתיחה בכרטיס חדש
-  card.innerHTML = `<h2>${cardInfo.title}</h2><p>כמות כסף: ${cardInfo.price}</p><p>תאריך יעד: ${cardInfo.date}</p>`;
-  activeCardsDiv.appendChild(card);
-});
-
-// פונקציה ליצירת accordion בכרטיס מושלם
-function moveToCompleted(card) {
-  const completedSection = document.getElementById('completed-section');
-
-  const header = document.createElement('div');
-  header.className = 'accordion-header';
-  header.innerHTML = '<span>הושלם</span><span class="arrow">→</span>';
-
-  const content = document.createElement('div');
-  content.className = 'accordion-content';
-  content.appendChild(card); // הכרטיס נשאר <a> עם href
-
-  header.addEventListener('click', () => {
-    if(content.style.display === 'block') {
-      content.style.display = 'none';
-      header.querySelector('.arrow').classList.remove('down');
-    } else {
-      content.style.display = 'block';
-      header.querySelector('.arrow').classList.add('down');
-    }
+document.getElementById('docDate').textContent =
+  d.toLocaleDateString('he-IL',{
+    day:'2-digit',
+    month:'2-digit',
+    year:'numeric'
+  })
+  + ' · ' +
+  d.toLocaleTimeString('he-IL',{
+    hour:'2-digit',
+    minute:'2-digit'
   });
 
-  completedSection.appendChild(header);
-  completedSection.appendChild(content);
-}
 
-// פונקציה לבדוק סטטוס ולסדר כרטיסים
-function checkStatus() {
-  db.ref(path).once('value').then(snapshot => {
-    const data = snapshot.val();
-    if (!data) return;
+const code =
+  'GREV-AGENT-' +
+  Math.random()
+    .toString(36)
+    .slice(2,7)
+    .toUpperCase() +
+  '-' +
+  Date.now()
+    .toString()
+    .slice(-5);
 
-    cardsData.forEach(cardInfo => {
-      const card = document.querySelector(`.card[data-id="${cardInfo.id}"]`);
-      const students = data.students || [];
-      const paidList = data.paidList || [];
-      const percent = (paidList.length / students.length) * 100;
+document.getElementById('docNumDisplay').textContent =
+  'מספר אישור: ' + code;
 
-      if(percent === 100 && card.parentElement === activeCardsDiv) {
-        moveToCompleted(card);
-      }
-    });
-  });
-}
-
-// מאזין בזמן אמת
-db.ref(path).on('value', snapshot => {
-  checkStatus();
-});
 </script>
 
 </body>
